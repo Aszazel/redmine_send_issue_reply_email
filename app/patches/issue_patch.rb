@@ -20,3 +20,6 @@ end
 SendIssueReplyEmail::IssuePatch.tap do |mod|
   Issue.send :include, mod unless Issue.include?(mod)
 end
+
+# Zeitwerk expects IssuePatch for this path
+IssuePatch = SendIssueReplyEmail::IssuePatch
