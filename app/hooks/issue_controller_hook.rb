@@ -10,3 +10,6 @@ module SendIssueReplyEmail
 
   end
 end
+
+# Zeitwerk expects IssueControllerHook for this path
+IssueControllerHook = SendIssueReplyEmail::IssueControllerHooks

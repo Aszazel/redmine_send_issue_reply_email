@@ -29,3 +29,6 @@ end
 SendIssueReplyEmail::MailHandlerPatch.tap do |mod|
   MailHandler.prepend mod
 end
+
+# Zeitwerk expects MailHandlerPatch for this path
+MailHandlerPatch = SendIssueReplyEmail::MailHandlerPatch

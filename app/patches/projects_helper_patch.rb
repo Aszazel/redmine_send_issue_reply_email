@@ -27,3 +27,6 @@ end
 SendIssueReplyEmail::ProjectsHelperPatch.tap do |mod|
   ProjectsHelper.prepend mod
 end
+
+# Zeitwerk expects ProjectsHelperPatch for this path
+ProjectsHelperPatch = SendIssueReplyEmail::ProjectsHelperPatch
