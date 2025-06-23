@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/matsukei/redmine_send_issue_reply_email.svg?branch=master)](https://travis-ci.org/matsukei/redmine_send_issue_reply_email)
 
 It is a plugin that provides the email sending feature to non Redmine users when registering notes.
+This version of the plugin is compatible with Redmine 5.1 and later.
 
 ## Usage
 

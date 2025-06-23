@@ -38,7 +38,7 @@ class IssueReplyMailerTest < ActiveSupport::TestCase
     email_delivery_setting.update(plain_text: true)
 
     with_settings bcc_recipients: 0 do
-      assert IssueReplyMailer.notification(issue.reload, journal).deliver
+      assert IssueReplyMailer.notification(issue.reload, journal).deliver_now
       mail = last_email
       # to: from + to or reply_to
       assert_equal [ 'dummy-from@customer.co.jp', 'dummy-to@matsukei.co.jp' ], mail.to.to_a
@@ -64,7 +64,7 @@ class IssueReplyMailerTest < ActiveSupport::TestCase
     email_delivery_setting.update(plain_text: true)
 
     with_settings bcc_recipients: 1 do
-      assert IssueReplyMailer.notification(issue.reload, journal).deliver
+      assert IssueReplyMailer.notification(issue.reload, journal).deliver_now
       mail = last_email
       # to: from + to or reply_to
       assert_equal [ 'dummy-reply-to@customer.co.jp' ], mail.to.to_a
@@ -82,7 +82,7 @@ class IssueReplyMailerTest < ActiveSupport::TestCase
     email_delivery_setting = generate_email_delivery_setting_of_same_redmine(project)
 
     email_delivery_setting.update(plain_text: false)
-    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver
+    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver_now
     assert_select_email do
       assert_select ".header" do
         assert_select "strong", text: "Header second line"
@@ -94,7 +94,7 @@ class IssueReplyMailerTest < ActiveSupport::TestCase
     end
 
     email_delivery_setting.update(plain_text: true)
-    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver
+    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver_now
     mail = last_email
     assert_equal [ 'jsmith@somenet.foo' ], mail.to.to_a
     assert_equal [], mail.cc.to_a
@@ -111,14 +111,14 @@ class IssueReplyMailerTest < ActiveSupport::TestCase
     email_delivery_setting.update(footer: '')
 
     email_delivery_setting.update(plain_text: false)
-    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver
+    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver_now
     assert_select_email do
       assert_select ".header", false
       assert_select "p", text: "Comments are written here(HTML format)."
       assert_select ".footer", false
     end
     email_delivery_setting.update(plain_text: true)
-    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver
+    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver_now
     mail = last_email
     assert_equal [ 'jsmith@somenet.foo' ], mail.to.to_a
     assert_equal [], mail.cc.to_a
@@ -134,7 +134,7 @@ class IssueReplyMailerTest < ActiveSupport::TestCase
     email_delivery_setting.update(footer: '')
 
     email_delivery_setting.update(plain_text: false)
-    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver
+    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver_now
     assert_select_email do
       assert_select ".header" do
         assert_select "strong", text: "Header second line"
@@ -143,7 +143,7 @@ class IssueReplyMailerTest < ActiveSupport::TestCase
       assert_select ".footer", false
     end
     email_delivery_setting.update(plain_text: true)
-    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver
+    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver_now
     mail = last_email
     assert_equal [ 'jsmith@somenet.foo' ], mail.to.to_a
     assert_equal [], mail.cc.to_a
@@ -159,7 +159,7 @@ class IssueReplyMailerTest < ActiveSupport::TestCase
     email_delivery_setting.update(header: '')
 
     email_delivery_setting.update(plain_text: false)
-    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver
+    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver_now
     assert_select_email do
       assert_select ".header", false
       assert_select "p", text: "Comments are written here(HTML format)."
@@ -168,7 +168,7 @@ class IssueReplyMailerTest < ActiveSupport::TestCase
       end
     end
     email_delivery_setting.update(plain_text: true)
-    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver
+    assert IssueReplyMailer.test_email(User.find(2), project.reload).deliver_now
     mail = last_email
     assert_equal [ 'jsmith@somenet.foo' ], mail.to.to_a
     assert_equal [], mail.cc.to_a

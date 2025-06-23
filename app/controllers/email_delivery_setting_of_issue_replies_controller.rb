@@ -14,7 +14,7 @@ class EmailDeliverySettingOfIssueRepliesController < ApplicationController
 
     ActionMailer::Base.raise_delivery_errors = true
     begin
-      @test = IssueReplyMailer.test_email(User.current, @project).deliver
+      @test = IssueReplyMailer.test_email(User.current, @project).deliver_now
       flash[:notice] = l(:notice_email_sent, ERB::Util.h(User.current.mail))
     rescue Exception => e
       flash[:error] = l(:notice_email_error, ERB::Util.h(Redmine::CodesetUtil.replace_invalid_utf8(e.message.dup)))
