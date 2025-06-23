@@ -3,7 +3,8 @@ class EmailDeliverySettingOfIssueReply < ActiveRecord::Base
 
   include Redmine::Ciphering
 
-  has_one :project
+  # The settings table stores project_id, so this side owns the key
+  belongs_to :project
 
   # See: http://www.redmine.org/projects/redmine/wiki/EmailConfiguration
   # See: http://www.rubydoc.info/github/mikel/mail/Mail/SMTP
