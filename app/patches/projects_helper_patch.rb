@@ -4,14 +4,8 @@ module SendIssueReplyEmail
   module ProjectsHelperPatch
     unloadable
 
-    extend ActiveSupport::Concern
-
-    included do
-      alias_method_chain :project_settings_tabs, :email_delivery_setting_of_issue_reply_tab
-    end
-
-    def project_settings_tabs_with_email_delivery_setting_of_issue_reply_tab
-      tabs = project_settings_tabs_without_email_delivery_setting_of_issue_reply_tab
+    def project_settings_tabs
+      tabs = super
 
       if User.current.allowed_to?(:manage_email_delivery_setting, @project) &&
           @project.module_enabled?(:send_issue_reply_email)
@@ -31,5 +25,8 @@ module SendIssueReplyEmail
 end
 
 SendIssueReplyEmail::ProjectsHelperPatch.tap do |mod|
-  ProjectsHelper.send :include, mod unless ProjectsHelper.include?(mod)
+  ProjectsHelper.prepend mod
 end
+
+# Zeitwerk expects ProjectsHelperPatch for this path
+ProjectsHelperPatch = SendIssueReplyEmail::ProjectsHelperPatch

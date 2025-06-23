@@ -17,3 +17,6 @@ end
 SendIssueReplyEmail::ProjectPatch.tap do |mod|
   Project.send :include, mod unless Project.include?(mod)
 end
+
+# Zeitwerk expects ProjectPatch for this path
+ProjectPatch = SendIssueReplyEmail::ProjectPatch
