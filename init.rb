@@ -1,9 +1,9 @@
 Redmine::Plugin.register :redmine_send_issue_reply_email do
   name 'Redmine Send Issue Reply Email'
   author 'Matsukei Co.,Ltd'
-  description 'It is a plugin that provides the email sending feature to non Redmine users when registering notes.'
-  version '1.0.0'
-  requires_redmine version_or_higher: '3.2.0'
+  description 'Adds "send issue reply" e-mail functionality to Redmine.'
+  version '1.1.0'
+  requires_redmine version_or_higher: '5.1.1'
   url 'https://github.com/matsukei/redmine_send_issue_reply_email'
   author_url 'http://www.matsukei.co.jp/'
 
@@ -18,3 +18,13 @@ Redmine::Plugin.register :redmine_send_issue_reply_email do
 end
 
 require_relative 'lib/send_issue_reply_email'
+
+# Ensure patches are reapplied on each reload
+Rails.configuration.to_prepare do
+  require_relative 'lib/send_issue_reply_email'
+
+  if defined?(SendIssueReplyEmail::ProjectPatch) &&
+     !Project.included_modules.include?(SendIssueReplyEmail::ProjectPatch)
+    Project.include SendIssueReplyEmail::ProjectPatch
+  end
+end
