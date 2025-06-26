@@ -18,13 +18,10 @@ Redmine::Plugin.register :redmine_send_issue_reply_email do
 end
 
 require_relative 'lib/send_issue_reply_email'
+SendIssueReplyEmail.load_patches
 
 # Ensure patches are reapplied on each reload
 Rails.configuration.to_prepare do
   require_relative 'lib/send_issue_reply_email'
-
-  if defined?(SendIssueReplyEmail::ProjectPatch) &&
-     !Project.included_modules.include?(SendIssueReplyEmail::ProjectPatch)
-    Project.include SendIssueReplyEmail::ProjectPatch
-  end
+  SendIssueReplyEmail.load_patches
 end
