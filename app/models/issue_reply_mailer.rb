@@ -20,7 +20,7 @@ class IssueReplyMailer < Mailer
     end
   end
 
-  def notification(issue, journal)
+  def notification(user, issue, journal)
     redmine_headers 'Project' => issue.project.identifier, 'Issue-Id' => issue.id
     message_id journal
     references issue
