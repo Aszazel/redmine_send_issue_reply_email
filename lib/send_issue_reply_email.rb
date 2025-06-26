@@ -9,6 +9,7 @@ module SendIssueReplyEmail
     Dir[File.join(root.to_s, 'app', 'patches', '**', '*_patch.rb')].each do |f|
       require_dependency f
     end
+
   end
 end
 
